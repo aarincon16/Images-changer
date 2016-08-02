@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>StarWarsWikia</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link href="estilos.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/jquery.bxslider.css" rel="stylesheet" />
+    <script src="js/jquery.bxslider.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body data-spy="scroll" data-target="#barra-nav">
+ <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="inicio.html">TuStarWarsWiki</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        
+        <li><a href="peliculas.html">Peliculas</a></li>
+        <li><a href="personajes.html">Personajes</a></li>
+        <li><a href="planetas.html">Planetas</a></li>
+        <li><a href="vehiculos.html">Vehiculos</a></li>
+        <li><a href="starships.html">StarShips</a></li>
+      <form class="navbar-form navbar-right">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Serch</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+	
+
+
+<div class="container">
+
+	<ul class="bxslider">
+        <li><img src="images/epi1.png" /></li>
+        <li><img src="images/epi2.png" /></li>
+        <li><img src="images/epic.png" /></li>
+        <li><img src="images/epi3.png" /></li>
+        <li><img src="images/epi4.png" /></li>
+        <li><img src="images/epi5.png" /></li>
+        <li><img src="images/epi6.png" /></li>
+        <li><img src="images/epi7.png" /></li>
+      </ul>
+
+  <div class="row">
+        
+        <div class="col-md-12 peliculas ">
+          
+        </div>
+      </div>
+</div>
+<script>
+      $(document).ready(function(){
+      $('.bxslider').bxSlider({
+        auto: true,
+        speed: 1500,
+      });
+      });
+
+</script>
+<script type="text/javascript">
+
+    function mostrarFilms(url,pos){
+            $.ajax({
+               url: url,
+               dataType: "json",
+               success: function(data){
+                  $('.characters'+pos).append('<li>'+ data.name + '</li>');
+               }
+            });
+         }
+function mostrarPeople(url,pos){
+   
+
+       
+         $.ajax({
+            url: url,
+            dataType: "json",
+            success: function(data){
+              $('#ppl'+pos).append(
+                     '<li> ' +
+                         data.name+
+                     '</li>');
+            }
+         });
+      }
+
+
+  function cargarPeople(_url){
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "http://swapi.co/api/films",
+        success: function(data){
+          for (var i = 0; i < data.results.length; i++) {
+            $(".peliculas").append('<div class="col-md-8 col-md-offset-2" style="background: rgba(255,255,255,0.8);>' +
+                    '<div class="data"> ' +
+                      '<h2>'+ data.results[i].title +'</h2>' +
+                      '<h3>Episodio '+data.results[i].episode_id +'</h3>' +
+                      '<p>Fecha de estreno'+data.results[i].release_date +'</p>' +
+                      '<p><br>Director: '+data.results[i].director +'</p>' +
+                      '<p><br>Productor: '+data.results[i].producer +'</p>' +
+                      '<button type="button" class="btn btn-info btn-lg" data-toggle="modal"              data-target="#myModal'+i+'">Sinopsis</button>'+
+                      '<div id="myModal'+i+'" class="modal fade" role="dialog">'+
+                      '<div class="modal-dialog">'+
+                      '<div class="modal-content">'+
+                      '<div class="modal-header">'+
+                      '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                      '<h4 class="modal-title">'+data.results[i].title+'</h4>'+
+                      '</div>'+
+                      '<div class="modal-body">'+
+                      '<p>Sinopsis: '+data.results[i].opening_crawl+'</p>'+
+                      '</div>'+
+                      '<div class="modal-footer">'+
+                      '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                      '</div>'+
+                      '</div>'+
+                      '</div>'+
+                      '</div>'+
+                      '<button type="button" class="btn btn-info btn-lg" data-toggle="modal"             data-target="#myPeople'+i+'">Personajes</button>'+
+                      '<div id="myPeople'+i+'" class="modal fade" role="dialog">'+
+                      '<div class="modal-dialog">'+
+                      '<div class="modal-content">'+
+                      '<div class="modal-header">'+
+                      '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                      '<h4 class="modal-title">'+data.results[i].title+'</h4>'+
+                      '</div>'+
+                      '<div class="modal-body" id="ppl'+i+'">'+
+                      '<ul>Personajes :</ul>'+
+                      '</div>'+
+                      '<div class="modal-footer">'+
+                      '  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                      '</div>'+
+                      '</div>'+
+                      '</div>'+
+                      '</div></div>');
+
+                    for (var j = 0; j < data.results[i].characters.length; j++){
+                    
+                      mostrarPeople(data.results[i].characters[j],i)
+                   }
+     }
+   }
+ })
+                  '</div>';
+          }
+        
+      
+
+  
+  cargarPeople("http://swapi.co/api/films/");
+
+</script>
+</html>
